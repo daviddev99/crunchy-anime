@@ -1,27 +1,45 @@
 import React from "react";
 import Image from "next/image";
+import { MotionDiv } from "./MotionDiv";
 
-interface Anime {
-    id: string,
-    image: {
-        original: string
-    },
-    name: string,
-    kind: string,
-    episodes: number,
-    score: string 
+export interface Anime {
+  id: string;
+  image: {
+    original: string;
+  };
+  name: string;
+  kind: string;
+  episodes: number;
+  score: string;
 }
 
 interface Prop {
-    item: Anime;
+  item: Anime;
+  index: number
 }
 
-export const AnimeCard = ({item}: Prop) => {
+export const AnimeCard = ({ item, index }: Prop) => {
   return (
-    <div key={item.id} className="flex flex-col gap-2 text-white">
+    <MotionDiv 
+    key={item.id} 
+    className="flex flex-col gap-2 text-white"
+    variants={{
+      hidden: {opacity: 0},
+      visible: {opacity: 1}
+    }}
+    initial="hidden"
+    animate="visible"
+    transition={{
+      delay: 0.1 * index,
+      ease: "easeInOut",
+      duration: 0.5
+    }}
+    viewport={{amount:0}}
+    >
+
       <div className="w-full relative h-[40vh]">
         <Image
-          src={item.image.original}
+          src={`https://shikimori.one${item.image.original}`}
           alt={item.name}
           fill
           className="rounded-xl object-cover"
@@ -41,7 +59,6 @@ export const AnimeCard = ({item}: Prop) => {
           <span>{item.score}</span>
         </div>
       </div>
-    </div>
+    </MotionDiv>
   );
 };
-

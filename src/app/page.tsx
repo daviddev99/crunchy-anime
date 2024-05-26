@@ -1,9 +1,11 @@
 import Image from "next/image";
-import { data } from "./_data";
-import { AnimeCard } from "@/components/AnimeCard";
+import { fetchAnime } from "./action";
+import { LoadMore } from "@/components/LoadMore";
 import { Footer } from "@/components/Footer";
 
-export default function Home() {
+
+export default async function Home() {
+  const data = await fetchAnime(1);
   return (
     <main className="max-w-7xl w-full  mx-auto bg-[#0F1117]">
       <header className="bg-hero bg-center bg-cover bg-no-repeat flex flex-col  items-center  px-8 py-16 justify-between lg:flex-row md:p-16 sm:gap-10">
@@ -28,12 +30,11 @@ export default function Home() {
       <section className="px-8 py-16 lg:p-16">
         <p className="text-white text-3xl font-bold mb-10">Explore Anime</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
-          {data.map((item) => (
-            <AnimeCard item={item} key={item.id}/>
-          ))}
+          {data}
         </div>
+        <LoadMore />
       </section>
-      <Footer/>
+      <Footer />
     </main>
   );
 }
